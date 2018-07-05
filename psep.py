@@ -18,4 +18,3 @@ def find_outlier(points, thresh=3.5):
         is_outlier= modified_z_score > thresh
         return points[is_outlier]
 print(find_outlier(data))
-print("hello")
