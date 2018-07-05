@@ -1,12 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import skew,mode
-data=np.loadtxt(open(".\\fundamentals.csv", "rb"), delimiter=",",usecols=(69), skiprows=1)
-plt.hist(data,bins=500)
+data=np.loadtxt(open(".\\prices.csv", "rb"), delimiter=",",usecols=(4,5), skiprows=1)
+volume=np.loadtxt(open(".\\prices.csv", "rb"), delimiter=",",usecols=(6), skiprows=1)
+prices=[(x[0]+x[1])/2 for x in data]
+plt.hist(prices,bins=500)
 plt.show()
-print(skew(data))
-print(mode(data))
-plt.boxplot(data)
+print(skew(prices))
+print(mode(prices))
+plt.boxplot(prices)
 plt.show()
 def find_outlier(points, thresh=3.5):
         points = points[:,None]
@@ -17,4 +19,6 @@ def find_outlier(points, thresh=3.5):
         modified_z_score = 0.6745 * diff / med_abs_deviation
         is_outlier= modified_z_score > thresh
         return points[is_outlier]
-print(find_outlier(data))
+print(find_outlier(prices))
+plt.scatter(prices,volume)
+plt.show()
