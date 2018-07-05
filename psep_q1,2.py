@@ -1,13 +1,15 @@
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from scipy.stats import skew,mode
+matplotlib.style.use('ggplot')
 data=np.loadtxt(open(".\\prices.csv", "rb"), delimiter=",",usecols=(4,5), skiprows=1)
 volume=np.loadtxt(open(".\\prices.csv", "rb"), delimiter=",",usecols=(6), skiprows=1)
-prices=[(x[0]+x[1])/2 for x in data]
+prices=np.array([(x[0]+x[1])/2 for x in data])
+##Q1
 plt.hist(prices,bins=500)
 plt.show()
 print(skew(prices))
-print(mode(prices))
 plt.boxplot(prices)
 plt.show()
 def find_outlier(points, thresh=3.5):
@@ -20,5 +22,8 @@ def find_outlier(points, thresh=3.5):
         is_outlier= modified_z_score > thresh
         return points[is_outlier]
 print(find_outlier(prices))
+##Q2
 plt.scatter(prices,volume)
 plt.show()
+print(np.corrcoef(prices,volume)[0][1])
+print(np.cov(prices,volume)[0][1])
