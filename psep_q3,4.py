@@ -26,12 +26,22 @@ for i in tuples :
     datat[i]=0
 for i in data.values:
     datat[(i[0],i[1][i[1].find(',')+1:])]+=1
+matplotlib.rcParams.update({'font.size': 3})
+labels = lambda k: "\n".join(k) if datat[k] != 0 else ""
+mosaic(datat, title='mosaic',labelizer=labels)
+plt.rc('text', usetex=False)
+plt.show()
+temp2=[[0 for i in range(len(ssector))] for j in range(len(saddress))]
+for i in data.values:
+    temp2[saddress.index(i[1][i[1].find(',')+1:])][ssector.index(i[0])]+=1
+temp3=np.array(temp2).reshape(11,53)
+print(temp3)
 temp2=[[0 for i in range(len(saddress))] for j in range(len(ssector))]
 for i in data.values:
     temp2[ssector.index(i[0])][saddress.index(i[1][i[1].find(',')+1:])]+=1
 temp3=np.array(temp2).reshape(53,11)
-print(temp3)
-matplotlib.rcParams.update({'font.size': 17})
+
+matplotlib.rcParams.update({'font.size': 12})
 index = np.arange(len(ssector)) + 0.3
 bar_width = 0.4
 
@@ -40,4 +50,6 @@ y_offset = np.zeros(len(ssector))
 for row in range(len(temp3)):
     plt.bar(index, temp3[row], bar_width, bottom=y_offset)
     y_offset = y_offset + temp3[row]
+ind=np.arange(11)
+plt.xticks(ind, ssector, rotation=90)
 plt.show()
